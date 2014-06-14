@@ -23,7 +23,7 @@ class Index extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $this->load->model('User_model');
         $this->config->load('menu');
-        //$this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
 
         $this->menu = $this->config->item('menu');
     }
@@ -39,7 +39,18 @@ class Index extends CI_Controller {
     }
 
     public function login() {
-        
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+
+        $password = md5($password);
+
+        $result = $this->User_model->login($username, $password);
+
+        if ($result == FALSE) {
+            $this->errorpage("估计你用户名密码错了", "数据库君没有找到任何有关输入的用户名和密码信息。。。");
+        } else {
+            $this->index();
+        }
     }
 
     public function mainpage($data) {
@@ -63,9 +74,20 @@ class Index extends CI_Controller {
         $data['menuactive'] = array('', '', 'active');
         $this->page('contact_view', $data);
     }
-    
-    public function register(){
-        
+
+    public function register() {
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $email = $this->input->post('email');
+
+        $password = md5($password);
+
+        $result = $this->User_model->registration($username, $password, $email);
+        if ($result == FALSE) {
+            $this->errorpage('出现了一些错误', '我也不知道什么原因');
+        } else {
+            $this->index();
+        }
     }
 
     public function page($content, $data) {
@@ -73,6 +95,22 @@ class Index extends CI_Controller {
         $this->load->view('common/menu_view');
         $this->load->view($content);
         $this->load->view('common/footer');
+    }
+
+    public function errorpage($error, $msg) {
+        $data['error'] = $error;
+        $data['msg'] = $msg;
+        $data['status'] = $this->User_model->status;
+        $data['username'] = $this->User_model->username;
+        $data['title'] = '好像哪里不对劲';
+        $data['brand'] = $this->menu['brand'];
+        $data['menuactive'] = array('', '', '');
+        $this->page('common/error_view', $data);
+    }
+
+    public function logout() {
+        $this->User_model->logout();
+        $this->index();
     }
 
 }

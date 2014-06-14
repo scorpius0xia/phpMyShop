@@ -24,9 +24,27 @@
                             <li class="<?php echo $menuactive[2]; ?>">
                                 <a href="<?php echo site_url('index/contactpage'); ?>">联系我们</a>
                             </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right" style="margin-right:18px">
+                            <?php if ($status == FALSE) { ?>
+                                <li class="">
+                                    <a data-toggle="modal" href="#loginModal">登录</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="modal" href="#registerModal">注册</a>
+                                </li>
+                            <?php } else { ?>
+                                <li class="">
+                                    <a href="<?php echo site_url("index/ucenter"); ?>"><?php echo $username; ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url("index/logout"); ?>">退出</a>
+                                </li>
+                            <?php } ?>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Dropdown <b class="caret"></b>
+                                    购物车 <span class="badge pull-right">0</span>
+
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -47,24 +65,7 @@
                                         <a href="#">One more separated link</a>
                                     </li>
                                 </ul>
-                            </li><!--end dropdown-menu-->
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right" style="margin-right:18px">
-                            <?php if ($status == FALSE) { ?>
-                                <li class="">
-                                    <a data-toggle="modal" href="#loginModal">登录</a>
-                                </li>
-                                <li>
-                                    <a data-toggle="modal" href="#registerModal">注册</a>
-                                </li>
-                                <?php } else { ?>
-                                <li class="">
-                                    <a href="<?php echo site_url("index/ucenter"); ?>"><?php echo $username;?></a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo site_url("index/quit"); ?>">退出</a>
-                                </li>
-                                <?php } ?>
+                            </li>
                         </ul>
                     </div>
                 </div>

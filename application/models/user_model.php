@@ -16,17 +16,25 @@ class User_model extends CI_Model {
     public $username = '';
     public $password = '';
     public $status = FALSE;
+    public $email = '';
     //put your code here
     public function __construct() {
         parent::__construct();
+        $this->load->database();
     }
     
     public function login($username, $password){
         $this->username = $username;
         $this->password = $password;
         
-        if(checkLogin()){
-            $user =array('username'=>$this->username);
+        if($this->checkLogin() == TRUE){
+            $user = array(
+                'username'=>$this->username,
+                'status'=>TRUE
+                    );
+            $this->session->set_userdata($user);
+            
+            return TRUE;
         }else{
             return FALSE;
         }
@@ -38,7 +46,7 @@ class User_model extends CI_Model {
         $this->status = $this->session->userdata('status');
 
         if (isset($this->username) && isset($this->status) &&
-                strcmp($this->username, '') != 0 && status == TRUE) {
+                strcmp($this->username, '') != 0 && $this->status == TRUE) {
             return TRUE;
         } else {
             return FALSE;
@@ -46,7 +54,47 @@ class User_model extends CI_Model {
     }
     
     public function checkLogin(){
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('uname',$this->username);
+        $this->db->where('upassword',$this->password);
+        
+        $query = $this->db->get();
+        
+        if($query->num_rows() != 0){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
         
     }
+    
+    public function registration($username, $password, $email){
+        $this->username = $username;
+        $this->password = $password;
+        $this->email = $email;
+        
+        $user = array(
+            'uname'=>$this->username,
+            'upassword'=>$this->password,
+            'uemail'=>$this->email,
+            'admin'=>0
+        );
+        
+        $query = $this->db->insert('users',$user);
+        if ($query != FALSE) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
+    public function logout(){
+        $user = array(
+            'username'=>'',
+            'status'=>''
+        );
+        
+        $this->session->unset_userdata($user);
+    }
 }

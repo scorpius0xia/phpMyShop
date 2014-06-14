@@ -168,7 +168,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <form class="form-group" action="<?php echo site_url('index/registration'); ?>" method="post">
+                            <form class="form-group" action="<?php echo site_url('index/register'); ?>" method="post">
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
                                     <label for="username">账号：</label>
                                     <input type="text" class="form-control" name="username" id="username" required>
@@ -212,15 +212,15 @@
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <form class="form-group" action="<?php echo site_url('index/login'); ?>" method="post">
-                                <div class="col-10 col-lg-10 col-lg-offset-1 form-register-item">
+                                <div class="col-12 col-lg-12 form-register-item">
                                     <label for="username">账号：</label>
                                     <input type="text" name="username" id="username" class="form-control" required>
                                 </div>
-                                <div class="col-10 col-lg-10 col-lg-offset-1 form-register-item">
+                                <div class="col-12 col-lg-12 form-register-item">
                                     <label for="password">密码：</label>
                                     <input type="password" name="password" id="password" class="form-control" required>
                                 </div>
-                                <div class="col-10 col-lg-10 col-lg-offset-1 form-register-item">
+                                <div class="col-12 col-lg-12 form-register-item">
                                     <button type="submit" class="btn btn-block btn-success btn-submit-sm">登录</button>
                                 </div>
                             </form>
