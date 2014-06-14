@@ -1,0 +1,38 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2014-6-14, 13:21:04
+    Author     : coolwind
+*/
+
+.btn-submit{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-submit-sm{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-register{
+    border-radius: 10px;
+    border-style: groove;
+    border-width: 2px;
+}
+
+.form-register-item{
+    margin-top: 20px
+}
+
+.form-register-item-sm{
+    margin-top: 10px
+}
+
+.marketing-content{
+    //padding-top:100px;
+    margin-top: 120px;
+}
