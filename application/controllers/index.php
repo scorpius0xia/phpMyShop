@@ -23,17 +23,13 @@ class Index extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $this->load->model('User_model');
         $this->config->load('menu');
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
 
         $this->menu = $this->config->item('menu');
     }
 
     public function index() {
-        $this->User_model->auto_login();
-        $data['status'] = $this->User_model->status;
-        $data['username'] = $this->User_model->username;
         $data['title'] = '联想商城';
-        $data['brand'] = $this->menu['brand'];
         $data['menuactive'] = array('active', '', '');
         $this->mainpage($data);
     }
@@ -58,24 +54,19 @@ class Index extends CI_Controller {
     }
 
     public function aboutpage() {
-        $data['status'] = $this->User_model->status;
-        $data['username'] = $this->User_model->username;
         $data['title'] = '关于我们';
-        $data['brand'] = $this->menu['brand'];
         $data['menuactive'] = array('', 'active', '');
         $this->page('about_view', $data);
     }
 
     public function contactpage() {
-        $data['status'] = $this->User_model->status;
-        $data['username'] = $this->User_model->username;
         $data['title'] = '联系我们';
-        $data['brand'] = $this->menu['brand'];
         $data['menuactive'] = array('', '', 'active');
         $this->page('contact_view', $data);
     }
 
     public function register() {
+        $this->User_model->auto_login();
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $email = $this->input->post('email');
@@ -91,6 +82,10 @@ class Index extends CI_Controller {
     }
 
     public function page($content, $data) {
+        $this->User_model->auto_login();
+        $data['status'] = $this->User_model->status;
+        $data['username'] = $this->User_model->username;
+        $data['brand'] = $this->menu['brand'];
         $this->load->view('common/header', $data);
         $this->load->view('common/menu_view');
         $this->load->view($content);
@@ -100,8 +95,6 @@ class Index extends CI_Controller {
     public function errorpage($error, $msg) {
         $data['error'] = $error;
         $data['msg'] = $msg;
-        $data['status'] = $this->User_model->status;
-        $data['username'] = $this->User_model->username;
         $data['title'] = '好像哪里不对劲';
         $data['brand'] = $this->menu['brand'];
         $data['menuactive'] = array('', '', '');
@@ -111,6 +104,12 @@ class Index extends CI_Controller {
     public function logout() {
         $this->User_model->logout();
         $this->index();
+    }
+
+    public function ucenter() {
+        $data['title'] = '用户中心';
+        $data['menuactive'] = array('', '', '');
+        $this->page('ucenter_view', $data);
     }
 
 }

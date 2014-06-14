@@ -36,3 +36,19 @@ and open the template in the editor.
     //padding-top:100px;
     margin-top: 120px;
 }
+
+/* Show and Affix the side nav when space allows it */
+@media screen and (min-width: 992px) {
+    /* Widen the fixed sidebar */
+    .bs-sidebar,.bs-sidebar.affix,.bs-sidebar.affix-bottom {
+        width: 223px;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+    /* Widen the fixed sidebar again */
+    .bs-sidebar,.bs-sidebar.affix-bottom,.bs-sidebar.affix {
+        width: 299px;
+    }
+}

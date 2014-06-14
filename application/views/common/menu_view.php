@@ -73,3 +73,80 @@
 
         </div>
     </div>
+
+    <div class="container">
+        <div id="registerModal" class="modal fade in">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">用户注册</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <form class="form-group" action="<?php echo site_url('index/register'); ?>" method="post">
+                                    <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                        <label for="username">账号：</label>
+                                        <input type="text" class="form-control" name="username" id="username" required>
+                                    </div>
+                                    <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                        <label for="password">密码：</label>
+                                        <input type="password" class="form-control" name="password" id="password" required>
+                                    </div>
+                                    <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                        <label for="repeat">重复：</label>
+                                        <input type="password" class="form-control" name="repeat" id="repeat" required>
+                                    </div>
+                                    <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                        <label for="email">电子邮箱：</label>
+                                        <input type="email" class="form-control" name="email" id="email" required>
+                                    </div>
+                                    <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                        <a href="">服务条约</a>
+                                        <button type="submit" class="btn btn-block btn-success btn-submit btn-lg">同意相关条约并注册</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="loginModal" class="modal fade in">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">登录</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <form class="form-group" action="<?php echo site_url('index/login'); ?>" method="post">
+                                    <div class="col-12 col-lg-12 form-register-item">
+                                        <label for="username">账号：</label>
+                                        <input type="text" name="username" id="username" class="form-control" required>
+                                    </div>
+                                    <div class="col-12 col-lg-12 form-register-item">
+                                        <label for="password">密码：</label>
+                                        <input type="password" name="password" id="password" class="form-control" required>
+                                    </div>
+                                    <div class="col-12 col-lg-12 form-register-item">
+                                        <button type="submit" class="btn btn-block btn-success btn-submit-sm">登录</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
