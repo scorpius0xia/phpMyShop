@@ -1,3 +1,28 @@
+<script type="text/javascript">
+    $().ready(function() {
+        $('#goOrder').submit(function() {
+            /*$.post('<?php echo site_url('index/getUser/' . $username); ?>',{},
+             function (data){
+             //alert("成功");
+             $('#usernamex').val(data.username);
+             $('#passwordx').val(data.password);
+             $('#emailx').val(data.email);
+             
+             
+             },"json");*/
+            $('#item_amount').val($('#amount').val());
+            $('#goModal').modal('show');
+            return false;
+        });
+        $('#submit_order').click(function() {
+            alert('提交成功');
+        });
+        $('#addToTrolley').click(function() {
+            alert('加入购物车成功');
+        });
+
+    });
+</script>
 <div class="container marketing-content">
     <div class="row featurette">
         <div class="col-md-7">
@@ -23,27 +48,27 @@
                 </div>
             </div>
             <hr class="item-hr">
-            <form class="form-group">
+            <form class="form-group" id="goOrder">
                 <div class="row">
                     <div class="col-md-2">
                         <h4 class="text-right">数量:</h4>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control">
+                        <input type="number" class="form-control" id="amount" required>
                     </div>
                     <div class="col-md-2">
                         <h4 class="text-right">库存:</h4>
                     </div>
                     <div class="col-md-2">
-                        <h5 class="text-left">100000</h5>
+                        <h5 id="leftAmount" class="text-left">100000</h5>
                     </div>
                 </div>
                 <div class="row marketing-content">
                     <div class="col-md-4 col-md-offset-1">
-                        <button class="btn btn-block btn-danger">购买</button>
+                        <button class="btn btn-block btn-danger" type="submit">立即购买</button>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-block btn-danger">加入购物车</button>
+                        <button class="btn btn-block btn-danger" id="addToTrolley">加入购物车</button>
                     </div>
                 </div>
             </form>
@@ -151,6 +176,61 @@
                             </div>
                         </div> 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="goModal" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">订单提交</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-12">
+                            <form class="form-group">
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="item_name">商品名称</label>
+                                    <input class="form-control" id="item_name" type="text" readonly>
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="item_no">商品编号</label>
+                                    <input class="form-control" id="item_no" type="text" readonly>
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="item_amount">数量</label>
+                                    <input class="form-control" id="item_amount" type="number">
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="user_name">收件人姓名</label>
+                                    <input class="form-control" id="user_name" type="text">
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="user_address">收件人地址</label>
+                                    <input class="form-control" id="user_address" type="text">
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="user_code">邮政编码</label>
+                                    <input class="form-control" id="user_code" type="text">
+                                </div>
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <label for="user_telephone">电话号码</label>
+                                    <input class="form-control" id="user_telephone" type="text">
+                                </div>
+
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <button class="btn btn-block btn-success btn-submit btn-lg" id="submit_order">提交订单</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>

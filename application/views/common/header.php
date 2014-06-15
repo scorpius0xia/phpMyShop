@@ -20,5 +20,6 @@ and open the template in the editor.
         <script src="<?php echo base_url('common/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('common/js/holder.min.js'); ?>"></script>
         <script src="<?php echo base_url('common/js/bootstrap-select.js'); ?>"></script>
+        <script src="<?php echo base_url('common/js/phpMyShop.js'); ?>"></script>
         <title><?php echo $title; ?></title>
     </head>

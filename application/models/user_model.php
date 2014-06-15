@@ -97,4 +97,14 @@ class User_model extends CI_Model {
         
         $this->session->unset_userdata($user);
     }
+    
+    public function getUser($username){
+        $this->db->select('*');
+        $this->db->from('user_detail');
+        $this->db->where('uname',$username);
+        
+        $query = $this->db->get();
+        
+        return $query;
+    }
 }

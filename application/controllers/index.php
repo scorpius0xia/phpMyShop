@@ -81,11 +81,19 @@ class Index extends CI_Controller {
         }
     }
 
-    public function page($content, $data) {
+    public function page($content, $data, $validate = FALSE) {
         $this->User_model->auto_login();
         $data['status'] = $this->User_model->status;
         $data['username'] = $this->User_model->username;
         $data['brand'] = $this->menu['brand'];
+
+        if ($validate == TRUE) {
+            if (strcmp($data['username'], '') == 0) {
+                $this->errorpage('没有登录', '后台重地，闲人免进!');
+                return;
+            }
+        }
+
         $this->load->view('common/header', $data);
         $this->load->view('common/menu_view');
         $this->load->view($content);
@@ -107,14 +115,141 @@ class Index extends CI_Controller {
     }
 
     public function ucenter() {
-        $data['title'] = '用户中心';
+        /*  $data['title'] = '用户中心';
+          $data['menuactive'] = array('', '', '');
+          $this->user_page('welcome_view', $data); */
+
+        $data['title'] = '管理中心';
         $data['menuactive'] = array('', '', '');
-        $this->page('ucenter_view', $data);
+        $this->admin_page('welcome_view', $data);
     }
 
-    public function item_detail(){
+    public function user_page($content, $data, $validate = TRUE) {
+        $this->User_model->auto_login();
+        $data['status'] = $this->User_model->status;
+        $data['username'] = $this->User_model->username;
+        $data['brand'] = $this->menu['brand'];
+
+        if ($validate == TRUE) {
+            if (strcmp($data['username'], '') == 0) {
+                $this->errorpage('没有登录', '后台重地，闲人免进!');
+                return;
+            }
+        }
+
+        $this->load->view('common/header', $data);
+        $this->load->view('common/menu_view');
+        $this->load->view('common/user_menu_header');
+        $this->load->view($content);
+        $this->load->view('common/user_menu_footer');
+        $this->load->view('common/footer');
+    }
+    
+     public function admin_page($content, $data, $validate = TRUE) {
+        $this->User_model->auto_login();
+        $data['status'] = $this->User_model->status;
+        $data['username'] = $this->User_model->username;
+        $data['brand'] = $this->menu['brand'];
+
+        if ($validate == TRUE) {
+            if (strcmp($data['username'], '') == 0) {
+                $this->errorpage('没有登录', '后台重地，闲人免进!');
+                return;
+            }
+        }
+
+        $this->load->view('common/header', $data);
+        $this->load->view('common/menu_view');
+        $this->load->view('common/admin_menu_header');
+        $this->load->view($content);
+        $this->load->view('common/admin_menu_footer');
+        $this->load->view('common/footer');
+    }
+
+    public function item_detail() {
         $data['title'] = '商品详情';
         $data['menuactive'] = array('', '', '');
         $this->page('item_detail_view', $data);
     }
+
+    public function mod_pwd() {
+        $data['title'] = '修改密码';
+        $data['menuactive'] = array('', '', '');
+        $this->user_page('modify_password_view', $data);
+    }
+
+    public function mod_user() {
+        $data['title'] = '修改资料';
+        $data['menuactive'] = array('', '', '');
+        $this->user_page('modify_user_view', $data);
+    }
+
+    public function select_order() {
+        $data['title'] = '查询订单';
+        $data['menuactive'] = array('', '', '');
+        $this->user_page('select_orders_view', $data);
+    }
+
+    public function cancel_order() {
+        $data['title'] = '取消订单';
+        $data['menuactive'] = array('', '', '');
+        $this->user_page('cancel_orders_view', $data);
+    }
+
+    public function getUser($username) {
+        $result = $this->User_model->getUser($username);
+        //需要修改，先做测试
+        $row = $result->result();
+        $result = $row[0];
+        $res = array(
+            'username' => $result->uname,
+            'password' => $result->upassword,
+            'email' => $result->uemail
+        );
+
+        echo json_encode($res);
+    }
+
+    public function admin_modify_user() {
+        $data['title'] = '修改资料';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('modify_user_view', $data);
+    }
+
+    public function admin_modify_password() {
+        $data['title'] = '修改密码';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('modify_password_view', $data);
+    }
+
+    public function admin_send_item() {
+        $data['title'] = '发货';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('admin_send_item_view', $data);
+    }
+
+    public function admin_delete_orders() {
+        $data['title'] = '删除订单';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('admin_delete_orders_view', $data);
+    }
+
+    public function admin_add_item() {
+        $data['title'] = '商品上架';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('admin_add_item_view', $data);
+    }
+
+    public function admin_fall_item() {
+        $data['title'] = '商品下架';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('admin_fall_item_view', $data);
+    }
+
+    public function admin_add_amount() {
+        $data['title'] = '进货';
+        $data['menuactive'] = array('', '', '');
+        $this->admin_page('admin_add_amount_view', $data);
+    }
+
 }
