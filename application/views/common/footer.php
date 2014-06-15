@@ -1,5 +1,5 @@
 <div class="container">
-    <hr class="featurette-divider">
+    <hr class="featurette-divider hr-footer">
     <footer>
         <p class="pull-right">
             <a href="#">Back to top</a>

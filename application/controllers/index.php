@@ -112,4 +112,9 @@ class Index extends CI_Controller {
         $this->page('ucenter_view', $data);
     }
 
+    public function item_detail(){
+        $data['title'] = '商品详情';
+        $data['menuactive'] = array('', '', '');
+        $this->page('item_detail_view', $data);
+    }
 }

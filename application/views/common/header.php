@@ -12,11 +12,13 @@ and open the template in the editor.
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="shortcut icon" href=style/docs/favicon.png">
-        <link href="<?php echo site_url('common/css/bootstrap.min.css'); ?>" rel="stylesheet">
-        <link href="<?php echo site_url('common/css/carousel.css'); ?>" rel="stylesheet">
-        <link href="<?php echo site_url('common/css/default.css'); ?>" rel="stylesheet">
-        <script src="<?php echo site_url('common/js/jquery.min.js'); ?>" ></script>
-        <script src="<?php echo site_url('common/js/bootstrap.min.js'); ?>"></script>
-        <script src="<?php echo site_url('common/js/holder.min.js'); ?>"></script>
+        <link href="<?php echo base_url('common/css/bootstrap.min.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('common/css/carousel.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('common/css/default.css'); ?>" rel="stylesheet">
+        <!--<link href="<?php echo base_url('common/css/flat-ui.css'); ?>" rel="stylesheet">-->
+        <script src="<?php echo base_url('common/js/jquery.min.js'); ?>" ></script>
+        <script src="<?php echo base_url('common/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo base_url('common/js/holder.min.js'); ?>"></script>
+        <script src="<?php echo base_url('common/js/bootstrap-select.js'); ?>"></script>
         <title><?php echo $title; ?></title>
     </head>

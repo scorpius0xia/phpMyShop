@@ -68,19 +68,19 @@
 
     <!-- Three columns of text below the carousel -->
     <div class="row">
-        <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
+        <div class="col-lg-4 ">
+            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
             <h2>Heading</h2>
             <p>
                 Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
             </p>
             <p>
-                <a class="btn btn-default" href="#" role="button">View details &raquo;</a>
+                <a class="btn btn-default" href="<?php echo site_url('index/item_detail');?>" role="button">View details &raquo;</a>
             </p>
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
+            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
             <h2>Heading</h2>
             <p>
                 Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.
@@ -91,7 +91,7 @@
         </div>
         <!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
+            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
             <h2>Heading</h2>
             <p>
                 Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
@@ -119,15 +119,16 @@
             </p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image"></div>
+            <img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_show.jpg');?>">
+        </div>
     </div>
 
     <hr class="featurette-divider">
 
     <div class="row featurette">
-        <div class="col-md-7">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image"></div>
         <div class="col-md-5">
+            <img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_another.jpg');?>"></div>
+        <div class="col-md-7">
             <h2 class="featurette-heading">
                 Oh yeah, it's that good.
                 <span class="text-muted">See for yourself.</span>
@@ -151,7 +152,7 @@
             </p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image"></div>
+            <img class="featurette-image img-responsive thumbnail" alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_another.jpg');?>"></div>
     </div>
 </div>
 
