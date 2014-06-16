@@ -110,3 +110,8 @@ hr{
     border-style:none;
     margin-left: 1px;
 }
+
+.editor-height{
+    height: 170px;
+    width: 350px;
+}

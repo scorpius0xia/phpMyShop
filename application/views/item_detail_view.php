@@ -1,16 +1,23 @@
+<?php
+$res = $results->result();
+$row = $res[0];
+?>
 <script type="text/javascript">
     $().ready(function() {
         $('#goOrder').submit(function() {
-            /*$.post('<?php echo site_url('index/getUser/' . $username); ?>',{},
-             function (data){
-             //alert("成功");
-             $('#usernamex').val(data.username);
-             $('#passwordx').val(data.password);
-             $('#emailx').val(data.email);
-             
-             
-             },"json");*/
+            $.post('<?php echo site_url('index/getUser/' . $username); ?>', {},
+                    function(data) {
+                        $('#item_name').val($('#iname').text());
+                        $('#item_no').val($('#ino').text());
+                        $('#user_name').val(data.name);
+                        $('#user_address').val(data.address);
+                        $('#user_code').val(data.code);
+                        $('#user_telephone').val(data.telephone);
+                    }, "json");
             $('#item_amount').val($('#amount').val());
+            var tol = parseInt($('#amount').val());
+            tol = tol * <?php echo $row->gprice; ?>;
+            $('#tol_price').text(tol);
             $('#goModal').modal('show');
             return false;
         });
@@ -23,28 +30,34 @@
 
     });
 </script>
+
 <div class="container marketing-content">
     <div class="row featurette">
         <div class="col-md-7">
-            <img class="img-thumbnail img-responsive" src="<?php echo base_url('public/image/lenovo_show.jpg'); ?>">
+            <img class="img-thumbnail img-responsive" src="<?php echo $row->gshowpic; ?>">
         </div>
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Lenovo G410AM-IFI(H) (金属黑)</h3>
-                    <p class="close-to">英特尔® 酷睿Haswell双核处理器</p>
-                    <p class="close-to">Linpus Lite简体中文版</p>
-                    <p class="close-to">4GB内存/500GHDD硬盘</p>
-                    <p class="close-to">14.0’HD LED显示屏</p>
+                    <h3 id="iname"><?php echo $row->gname; ?></h3>
+                    <p><?php echo $row->goption; ?></p>
                 </div>
             </div>
             <hr class="item-hr">
             <div class="row">
                 <div class="col-md-2">
+                    <h4 class="text-right">编号:</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="text-left" id="ino"><?php echo $row->gid; ?> </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
                     <h4 class="text-right">价格:</h4>
                 </div>
                 <div class="col-md-4">
-                    <h4 class="text-left">￥4799.00 </h4>
+                    <h4 class="text-left" id="per_price">￥<?php echo $row->gprice; ?> </h4>
                 </div>
             </div>
             <hr class="item-hr">
@@ -60,12 +73,12 @@
                         <h4 class="text-right">库存:</h4>
                     </div>
                     <div class="col-md-2">
-                        <h5 id="leftAmount" class="text-left">100000</h5>
+                        <h5 id="leftAmount" class="text-left"><?php echo $row->gamount; ?></h5>
                     </div>
                 </div>
                 <div class="row marketing-content">
                     <div class="col-md-4 col-md-offset-1">
-                        <button class="btn btn-block btn-danger" type="submit">立即购买</button>
+                        <button class="btn btn-block btn-danger" type="submit" <?php if ($username === '' || $username == null) echo "disabled=\"disabled\"" ?>>立即购买</button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-block btn-danger" id="addToTrolley">加入购物车</button>
@@ -82,7 +95,7 @@
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade in active" id="describe">
-                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                <?php echo $row->gdiscribe; ?>
             </div>
             <div class="tab-pane fade" id="size">
                 <div class="table-content">
@@ -92,7 +105,7 @@
                                 <h4 class="text-right">处理器：</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 class="text-left">第四代智能英特尔® 酷睿™ i7 处理器i7-4500U</h4>
+                                <h4 class="text-left"><?php echo $row->gcpu; ?></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -100,7 +113,7 @@
                                 <h4 class="text-right">内存：</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 class="text-left">4GB DDR3</h4>
+                                <h4 class="text-left"><?php echo $row->gmemory; ?></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -108,31 +121,7 @@
                                 <h4 class="text-right">硬盘：</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 class="text-left">1TB HDD</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">无线局域网卡：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">WIFI BGN无线局域网卡</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">光驱：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">超级DVD刻录</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">显示屏：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">14英寸LED背光高清炫彩屏</h4>
+                                <h4 class="text-left"><?php echo $row->gdisk; ?></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -140,31 +129,7 @@
                                 <h4 class="text-right">显卡：</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 class="text-left">AMD Radeon™ R5 M230独立显卡</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">显示内存：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">2G DDR3L</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">键盘：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">联想高触感巧克力键盘</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h4 class="text-right">标准接口：</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 class="text-left">1*USB 3.0接口，2*USB 2.0接口，VGA，HDMI-out，RJ45，二合一读卡器</h4>
+                                <h4 class="text-left"><?php echo $row->ggpu; ?></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -172,7 +137,7 @@
                                 <h4 class="text-right">特别说明：</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 class="text-left">联想会尽力为您提供标准、全面的信息，但不对信息中可能出现的错误或遗漏承担责任。产品图片仅供参考，请以销售实物为准。以上内容如有变动，恕不另行通知。 </h4>
+                                <h4 class="text-left"><?php echo $row->gother; ?></h4>
                             </div>
                         </div> 
                     </div>
@@ -204,7 +169,7 @@
                                 </div>
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
                                     <label for="item_amount">数量</label>
-                                    <input class="form-control" id="item_amount" type="number">
+                                    <input class="form-control" id="item_amount" type="number" readonly>
                                 </div>
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
                                     <label for="user_name">收件人姓名</label>
@@ -222,7 +187,10 @@
                                     <label for="user_telephone">电话号码</label>
                                     <input class="form-control" id="user_telephone" type="text">
                                 </div>
-
+                                <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
+                                    <h4 class="col-lg-3 col-lg-offset-4">总价:</h4>
+                                    <h4 class="col-lg-3"id="tol_price"></h4>
+                                </div>
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
                                     <button class="btn btn-block btn-success btn-submit btn-lg" id="submit_order">提交订单</button>
                                 </div>

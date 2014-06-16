@@ -15,11 +15,14 @@ and open the template in the editor.
         <link href="<?php echo base_url('common/css/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('common/css/carousel.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('common/css/default.css'); ?>" rel="stylesheet">
+        <link href="<?php echo base_url('ueditor/themes/default/css/umeditor.css'); ?>" rel="stylesheet">
         <!--<link href="<?php echo base_url('common/css/flat-ui.css'); ?>" rel="stylesheet">-->
         <script src="<?php echo base_url('common/js/jquery.min.js'); ?>" ></script>
         <script src="<?php echo base_url('common/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('common/js/holder.min.js'); ?>"></script>
         <script src="<?php echo base_url('common/js/bootstrap-select.js'); ?>"></script>
         <script src="<?php echo base_url('common/js/phpMyShop.js'); ?>"></script>
+        <script src="<?php echo base_url('ueditor/umeditor.config.js'); ?>"></script>
+        <script src="<?php echo base_url('ueditor/umeditor.min.js'); ?>"></script>
         <title><?php echo $title; ?></title>
     </head>

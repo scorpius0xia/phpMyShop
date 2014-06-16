@@ -19,10 +19,13 @@
                                 <a href="<?php echo site_url(); ?>">主页</a>
                             </li>
                             <li class="<?php echo $menuactive[1]; ?>">
-                                <a href="<?php echo site_url('index/aboutpage'); ?>">关于</a>
+                                <a href="<?php echo site_url('index/productpage'); ?>">产品</a>
                             </li>
                             <li class="<?php echo $menuactive[2]; ?>">
                                 <a href="<?php echo site_url('index/contactpage'); ?>">联系我们</a>
+                            </li>
+                            <li class="<?php echo $menuactive[3]; ?>">
+                                <a href="<?php echo site_url('index/aboutpage'); ?>">关于</a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right" style="margin-right:18px">

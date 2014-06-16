@@ -21,8 +21,9 @@ class Index extends CI_Controller {
         parent::__construct();
         $this->load->library('session');
         $this->load->helper(array('form', 'url'));
-        $this->load->model('User_model');
+        $this->load->model(array('User_model', 'Good_model'));
         $this->config->load('menu');
+        $this->load->database();
         //$this->output->enable_profiler(TRUE);
 
         $this->menu = $this->config->item('menu');
@@ -30,7 +31,7 @@ class Index extends CI_Controller {
 
     public function index() {
         $data['title'] = '联想商城';
-        $data['menuactive'] = array('active', '', '');
+        $data['menuactive'] = array('active', '', '', '');
         $this->mainpage($data);
     }
 
@@ -55,14 +56,57 @@ class Index extends CI_Controller {
 
     public function aboutpage() {
         $data['title'] = '关于我们';
-        $data['menuactive'] = array('', 'active', '');
+        $data['menuactive'] = array('', '', '', 'active');
         $this->page('about_view', $data);
     }
 
     public function contactpage() {
         $data['title'] = '联系我们';
-        $data['menuactive'] = array('', '', 'active');
+        $data['menuactive'] = array('', '', 'active', '');
         $this->page('contact_view', $data);
+    }
+
+    public function productpage() {
+
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/productpage');
+        //echo 
+        $config['total_rows'] = $this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+
+        $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
+
+        $data['title'] = '产品列表';
+        $data['menuactive'] = array('', 'active', '', '');
+        $this->page('goods_list_view', $data);
     }
 
     public function register() {
@@ -105,7 +149,7 @@ class Index extends CI_Controller {
         $data['msg'] = $msg;
         $data['title'] = '好像哪里不对劲';
         $data['brand'] = $this->menu['brand'];
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->page('common/error_view', $data);
     }
 
@@ -120,7 +164,7 @@ class Index extends CI_Controller {
           $this->user_page('welcome_view', $data); */
 
         $data['title'] = '管理中心';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('welcome_view', $data);
     }
 
@@ -166,9 +210,12 @@ class Index extends CI_Controller {
         $this->load->view('common/footer');
     }
 
-    public function item_detail() {
+    public function item_detail($gid) {
+        $result = $this->Good_model->item_detail($gid);
+        
+        $data['results'] = $result;
         $data['title'] = '商品详情';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->page('item_detail_view', $data);
     }
 
@@ -178,7 +225,7 @@ class Index extends CI_Controller {
 
 
         $data['title'] = '修改密码';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->user_page('modify_password_view', $data);
     }
 
@@ -192,19 +239,19 @@ class Index extends CI_Controller {
         $data['username'] = $username;
         $data['result'] = $res[0];
         $data['title'] = '修改资料';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->user_page('modify_user_view', $data);
     }
 
     public function select_order() {
         $data['title'] = '查询订单';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->user_page('select_orders_view', $data);
     }
 
     public function cancel_order() {
         $data['title'] = '取消订单';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->user_page('cancel_orders_view', $data);
     }
 
@@ -214,9 +261,10 @@ class Index extends CI_Controller {
         $row = $result->result();
         $result = $row[0];
         $res = array(
-            'username' => $result->uname,
-            'password' => $result->upassword,
-            'email' => $result->uemail
+            'name' => $result->udname,
+            'code' => $result->udcode,
+            'address' => $result->udaddress,
+            'telephone' => $result->udtelephone
         );
 
         echo json_encode($res);
@@ -232,7 +280,7 @@ class Index extends CI_Controller {
         $data['username'] = $username;
         $data['result'] = $res[0];
         $data['title'] = '修改资料';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('modify_user_view', $data);
     }
 
@@ -240,37 +288,37 @@ class Index extends CI_Controller {
         $this->User_model->auto_login();
         $data['username'] = $this->User_model->username;
         $data['title'] = '修改密码';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('modify_password_view', $data);
     }
 
     public function admin_send_item() {
         $data['title'] = '发货';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_send_item_view', $data);
     }
 
     public function admin_delete_orders() {
         $data['title'] = '删除订单';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_delete_orders_view', $data);
     }
 
     public function admin_add_item() {
         $data['title'] = '商品上架';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_add_item_view', $data);
     }
 
     public function admin_fall_item() {
         $data['title'] = '商品下架';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_fall_item_view', $data);
     }
 
     public function admin_add_amount() {
         $data['title'] = '进货';
-        $data['menuactive'] = array('', '', '');
+        $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_add_amount_view', $data);
     }
 
@@ -301,6 +349,65 @@ class Index extends CI_Controller {
         $data['new_pwd'] = md5($new_pwd);
         $res = $this->User_model->modify_password($data, $uname);
         echo $res;
+    }
+
+    public function add_item() {
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '100';
+        $config['max_width'] = '1024';
+        $config['max_height'] = '768';
+        $config['file_name'] = 'hello_';
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('item_front_pic');
+        $tmp = $this->upload->data();
+        //echo $this->upload->display_errors();
+        //var_dump($tmp);
+        if (strcmp($tmp['file_name'], 'hello_') == 0) {
+            $gtitlepic = "";
+        } else {
+            $gtitlepic = base_url() . 'uploads/' . $tmp['file_name'];
+        }
+        $this->upload->initialize($config);
+        $this->upload->do_upload('item_show_pic');
+        $tmp = $this->upload->data();
+        //var_dump($tmp);
+        if (strcmp($tmp['file_name'], 'hello_') == 0) {
+            $gshowpic = "";
+        } else {
+            $gshowpic = base_url() . 'uploads/' . $tmp['file_name'];
+        }
+
+
+        $gname = $this->input->post('item_name');
+        $gprice = $this->input->post('item_price');
+        $goption = $this->input->post('item_simple');
+        $gdiscribe = $this->input->post('editorValue');
+        $gcpu = $this->input->post('cpu');
+        $gmemory = $this->input->post('memory');
+        $gdisk = $this->input->post('disk');
+        $ggpu = $this->input->post('gpu');
+        $gother = $this->input->post('other');
+
+        $data = array(
+            'gname' => $gname,
+            'gprice' => $gprice,
+            'gtitlepic' => $gtitlepic,
+            'gshowpic' => $gshowpic,
+            'goption' => $goption,
+            'gdiscribe' => $gdiscribe,
+            'gcpu' => $gcpu,
+            'gmemory' => $gmemory,
+            'gdisk' => $gdisk,
+            'ggpu' => $ggpu,
+            'gother' => $gother
+        );
+
+        $this->Good_model->add_item($data);
+
+        $this->admin_add_item();
     }
 
 }
