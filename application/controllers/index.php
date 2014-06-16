@@ -115,7 +115,7 @@ class Index extends CI_Controller {
     }
 
     public function ucenter() {
-        /*  $data['title'] = '用户中心';
+        /* $data['title'] = '用户中心';
           $data['menuactive'] = array('', '', '');
           $this->user_page('welcome_view', $data); */
 
@@ -144,8 +144,8 @@ class Index extends CI_Controller {
         $this->load->view('common/user_menu_footer');
         $this->load->view('common/footer');
     }
-    
-     public function admin_page($content, $data, $validate = TRUE) {
+
+    public function admin_page($content, $data, $validate = TRUE) {
         $this->User_model->auto_login();
         $data['status'] = $this->User_model->status;
         $data['username'] = $this->User_model->username;
@@ -173,12 +173,24 @@ class Index extends CI_Controller {
     }
 
     public function mod_pwd() {
+        $this->User_model->auto_login();
+        $data['username'] = $this->User_model->username;
+
+
         $data['title'] = '修改密码';
         $data['menuactive'] = array('', '', '');
         $this->user_page('modify_password_view', $data);
     }
 
     public function mod_user() {
+        $this->User_model->auto_login();
+        $username = $this->User_model->username;
+        $query = $this->User_model->getUser($username);
+
+        $res = $query->result();
+
+        $data['username'] = $username;
+        $data['result'] = $res[0];
         $data['title'] = '修改资料';
         $data['menuactive'] = array('', '', '');
         $this->user_page('modify_user_view', $data);
@@ -211,12 +223,22 @@ class Index extends CI_Controller {
     }
 
     public function admin_modify_user() {
+        $this->User_model->auto_login();
+        $username = $this->User_model->username;
+        $query = $this->User_model->getUser($username);
+
+        $res = $query->result();
+
+        $data['username'] = $username;
+        $data['result'] = $res[0];
         $data['title'] = '修改资料';
         $data['menuactive'] = array('', '', '');
         $this->admin_page('modify_user_view', $data);
     }
 
     public function admin_modify_password() {
+        $this->User_model->auto_login();
+        $data['username'] = $this->User_model->username;
         $data['title'] = '修改密码';
         $data['menuactive'] = array('', '', '');
         $this->admin_page('modify_password_view', $data);
@@ -250,6 +272,35 @@ class Index extends CI_Controller {
         $data['title'] = '进货';
         $data['menuactive'] = array('', '', '');
         $this->admin_page('admin_add_amount_view', $data);
+    }
+
+    public function saveUser() {
+        $uname = $this->input->post('uname');
+        $udname = $this->input->post('udname');
+        $udaddress = $this->input->post('udaddress');
+        $udcode = $this->input->post('udcode');
+        $udtelephone = $this->input->post('udtelephone');
+
+        $data = array(
+            'udname' => $udname,
+            'udaddress' => $udaddress,
+            'udcode' => $udcode,
+            'udtelephone' => $udtelephone
+        );
+
+        $this->User_model->modify_user($data, $uname);
+        echo "<h4>修改成功</h4>";
+    }
+
+    public function savePwd() {
+        $ori_pwd = $this->input->post('ori_pwd');
+        $new_pwd = $this->input->post('new_pwd');
+        $uname = $this->input->post('uname');
+
+        $data['ori_pwd'] = md5($ori_pwd);
+        $data['new_pwd'] = md5($new_pwd);
+        $res = $this->User_model->modify_password($data, $uname);
+        echo $res;
     }
 
 }

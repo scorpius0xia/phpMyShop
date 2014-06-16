@@ -1,37 +1,49 @@
 create table if not exists users(
 uid int primary key auto_increment,
-uname varchar(20) unique,
+uname varchar(20) unique not null,
 upassword varchar(50),
 uemail varchar(320),
-admin tinyint
+uadmin tinyint,
+ustatus tinyint
 );
 
-create table if not exists good(
+create table if not exists goods(
 gid int primary key auto_increment,
-gname varchar(20)
+gname varchar(20) not null,
+gprice int not null default 0,
+gamount int not null default 0,
+gtitlepic text,
+gshowpic text,
+goption mediumtext,
+gdiscribe text,
+gcpu text,
+gmemory text,
+gdisk text,
+ggpu text,
+gother text
 );
 
 create table if not exists user_detail(
 udid int primary key auto_increment,
-uname varchar(20),
+uname varchar(20) unique not null,
+udname varchar(20),
+udcode int,
 udaddress text,
 udtelephone varchar(13),
 foreign key(uname) references users(uname)
 );
 
-create table if not exists good_detail(
-gdid int primary key auto_increment,
-gid int,
-gdprice int,
-gdamount int,
-foreign key(gid) references good(gid)
-);
-
 create table if not exists orders(
 oid int primary key auto_increment,
 uid int,
-oname int,
-oaddress text,
+gid int,
+oamount int not null default 1,
+oname varchar(20) not null,
+ocode int,
+oaddress text not null,
 otelephone varchar(13),
-foreign key (uid) references users(uid)
-);
+odate datetime not null,
+ostatus int not null default 0,
+foreign key (uid) references users(uid),
+foreign key (gid) references goods(gid)
+ );

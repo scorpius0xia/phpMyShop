@@ -78,11 +78,22 @@ class User_model extends CI_Model {
             'uname'=>$this->username,
             'upassword'=>$this->password,
             'uemail'=>$this->email,
-            'admin'=>0
+            'uadmin'=>0,
+            'ustatus'=>0
         );
         
         $query = $this->db->insert('users',$user);
-        if ($query != FALSE) {
+        
+        $user = array(
+            'uname'=>$this->username,
+            'udname'=>'',
+            'udaddress'=>'',
+            'udcode'=>'',
+            'udtelephone'=>''
+        );
+        
+        $result = $this->db->insert('user_detail',$user);
+        if ($query != FALSE && $result != FALSE) {
             return TRUE;
         } else {
             return FALSE;
@@ -107,4 +118,29 @@ class User_model extends CI_Model {
         
         return $query;
     }
+    
+    public function modify_password($data,$username){
+        $ori_pwd = $data['ori_pwd'];
+        $new_pwd = $data['new_pwd'];
+        
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('uname',$username);
+        $this->db->where('upassword',$ori_pwd);
+        
+        $query = $this->db->get();
+        if($query->num_rows() == 0){
+            return "<h4 class=\"text-center btn-submit\">原密码错误</h4>";
+        }else{
+            $this->db->where('uname',$username);
+            $this->db->update('users',array('upassword'=>$new_pwd));
+            return "<h4 class=\"text-center btn-submit\">密码修改成功</h4>";
+        }
+    }
+    
+    public function modify_user($data,$username){
+        $this->db->where('uname',$username);
+        $this->db->update('user_detail',$data);
+    }
+    
 }
