@@ -26,13 +26,13 @@
                     </div>
                     <div id="collapseTwo" class="accordion-body collapse" style="height: 0px; ">
                         <div class="accordion-inner">
-                            <a class="btn btn-block btn-default" href="<?php echo site_url('index/select_order');?>">查询订单</a>
+                            <a class="btn btn-block btn-default" href="<?php echo site_url('index/select_order/'.$username);?>">查询订单</a>
                         </div>
                         <!--<div class="accordion-inner">
                             <a class="btn btn-block btn-default" href="<?php echo site_url('index/ucenter/4');?>">修改订单</a>
                         </div>-->
                         <div class="accordion-inner">
-                            <a class="btn btn-block btn-default" href="<?php echo site_url('index/cancel_order');?>">取消订单</a>
+                            <a class="btn btn-block btn-default" href="<?php echo site_url('index/cancel_order/'.$username);?>">取消订单</a>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@ class Index extends CI_Controller {
         parent::__construct();
         $this->load->library('session');
         $this->load->helper(array('form', 'url'));
-        $this->load->model(array('User_model', 'Good_model'));
+        $this->load->model(array('User_model', 'Good_model', 'Order_model'));
         $this->config->load('menu');
         $this->load->database();
         //$this->output->enable_profiler(TRUE);
@@ -70,8 +70,7 @@ class Index extends CI_Controller {
 
         $this->load->library('pagination');
         $config['base_url'] = site_url('index/productpage');
-        //echo 
-        $config['total_rows'] = $this->db->count_all('goods');
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
         $config['per_page'] = 20;
         $config['uri_segment'] = 3;
 
@@ -103,6 +102,53 @@ class Index extends CI_Controller {
         $this->pagination->initialize($config);
 
         $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
+
+        $data['title'] = '产品列表';
+        $data['menuactive'] = array('', 'active', '', '');
+        $this->page('goods_list_view', $data);
+    }
+
+    public function selectpage($cpu, $mem, $disk, $gpu) {
+
+        //echo $cpu;
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/selectpage/' . $cpu . '/' . $mem . '/' . $disk . '/' . $gpu);
+        //echo 
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 7;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+
+
+
+        echo $this->uri->segment(7);
+        $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(7));
 
         $data['title'] = '产品列表';
         $data['menuactive'] = array('', 'active', '', '');
@@ -160,7 +206,7 @@ class Index extends CI_Controller {
 
     public function ucenter() {
         /* $data['title'] = '用户中心';
-          $data['menuactive'] = array('', '', '');
+          $data['menuactive'] = array('', '', '', '');
           $this->user_page('welcome_view', $data); */
 
         $data['title'] = '管理中心';
@@ -212,7 +258,7 @@ class Index extends CI_Controller {
 
     public function item_detail($gid) {
         $result = $this->Good_model->item_detail($gid);
-        
+
         $data['results'] = $result;
         $data['title'] = '商品详情';
         $data['menuactive'] = array('', '', '', '');
@@ -243,13 +289,87 @@ class Index extends CI_Controller {
         $this->user_page('modify_user_view', $data);
     }
 
-    public function select_order() {
+    public function select_order($username) {
+
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/select_order/' . $username);
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 4;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+
+        $uid = $this->User_model->getUid($username);
+        //echo $this->uri->segment(3);
+        $data['results'] = $this->Order_model->getOrders($config['per_page'], $this->uri->segment(4), $uid);
         $data['title'] = '查询订单';
         $data['menuactive'] = array('', '', '', '');
         $this->user_page('select_orders_view', $data);
     }
 
-    public function cancel_order() {
+    public function cancel_order($username) {
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/cancel_order/' . $username);
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 4;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+
+        $uid = $this->User_model->getUid($username);
+        //echo $this->uri->segment(3);
+        $data['results'] = $this->Order_model->getOrders($config['per_page'], $this->uri->segment(4), $uid, 0);
+
         $data['title'] = '取消订单';
         $data['menuactive'] = array('', '', '', '');
         $this->user_page('cancel_orders_view', $data);
@@ -293,12 +413,82 @@ class Index extends CI_Controller {
     }
 
     public function admin_send_item() {
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/admin_send_item');
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        
+        $data['results'] = $this->Order_model->getOrderAdmin($config['per_page'], $this->uri->segment(3), 0);
+        
         $data['title'] = '发货';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_send_item_view', $data);
     }
 
     public function admin_delete_orders() {
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/admin_delete_orders');
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        
+        $data['results'] = $this->Order_model->getOrderAdmin($config['per_page'], $this->uri->segment(3));
+        
         $data['title'] = '删除订单';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_delete_orders_view', $data);
@@ -311,12 +501,82 @@ class Index extends CI_Controller {
     }
 
     public function admin_fall_item() {
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/admin_delete_orders');
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        
+        $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
         $data['title'] = '商品下架';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_fall_item_view', $data);
     }
 
     public function admin_add_amount() {
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url('index/admin_add_amount');
+        $config['total_rows'] = 200; //$this->db->count_all('goods');
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['first_link'] = '第一页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = '最后一页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a>';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        
+        $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
+        
         $data['title'] = '进货';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_add_amount_view', $data);
@@ -410,4 +670,35 @@ class Index extends CI_Controller {
         $this->admin_add_item();
     }
 
+    public function item_cancel($oid) {
+        $this->Order_model->item_cancel($oid);
+        $this->ucenter();
+    }
+
+    public function item_send($oid){
+        $this->Order_model->item_cancel($oid);
+        redirect('index/admin_send_item');
+    }
+    
+    public function order_delete($oid){
+        $this->Order_model->order_delete($oid);
+        redirect('index/admin_delete_orders');
+    }
+    
+    public function item_fall($gid){
+        $this->db->where('gid',$gid);
+        $this->db->update('goods',array('gstatus'=>1));
+        redirect('index/admin_fall_item');
+    }
+    
+    public function add_item_amount(){
+        $gid = $this->input->post('item_id');
+        $gamount = $this->input->post('item_amount');
+        $gprice = $this->input->post('item_price');
+        
+        $this->db->where('gid',$gid);
+        $this->db->update('goods',array('gamount'=>$gamount,'gprice'=>$gprice));
+        
+        echo '更新成功';
+    }
 }

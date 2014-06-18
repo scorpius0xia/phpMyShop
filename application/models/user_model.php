@@ -143,4 +143,15 @@ class User_model extends CI_Model {
         $this->db->update('user_detail',$data);
     }
     
+    public function getUid($username){
+        $this->db->select('uid');
+        $this->db->from('users');
+        $this->db->where('uname',$username);
+        $res = $this->db->get();
+        $res = $res->result();
+        $res = $res[0];
+        
+        return $res->uid;
+    }
+    
 }

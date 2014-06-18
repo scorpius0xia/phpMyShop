@@ -21,8 +21,25 @@ $row = $res[0];
             $('#goModal').modal('show');
             return false;
         });
-        $('#submit_order').click(function() {
-            alert('提交成功');
+        $('#form-submit-order').submit(function() {
+            $.post('<?php echo site_url('item/submit_order/' . $username); ?>',
+                    {
+                        item_name: $('#item_name').val(),
+                        item_no: $('#item_no').val(),
+                        item_amount: $('#item_amount').val(),
+                        user_name: $('#user_name').val(),
+                        user_address: $('#user_address').val(),
+                        user_code: $('#user_code').val(),
+                        user_telephone: $('#user_telephone').val(),
+                        total: $('#tol_price').text()
+                    }, function(data) {
+                //$('#submit_status').text(data);
+                alert(data);
+                $('#goModal').modal('hide');
+                location.reload();
+            }
+            );
+            return false;
         });
         $('#addToTrolley').click(function() {
             alert('加入购物车成功');
@@ -40,7 +57,10 @@ $row = $res[0];
             <div class="row">
                 <div class="col-md-12">
                     <h3 id="iname"><?php echo $row->gname; ?></h3>
-                    <p><?php echo $row->goption; ?></p>
+                    <p><?php echo $row->goption;?></p>
+                    <?php if($row->gstatus == 1){?>
+                    <h4>已下架</h4>
+                    <?php }?>
                 </div>
             </div>
             <hr class="item-hr">
@@ -78,7 +98,7 @@ $row = $res[0];
                 </div>
                 <div class="row marketing-content">
                     <div class="col-md-4 col-md-offset-1">
-                        <button class="btn btn-block btn-danger" type="submit" <?php if ($username === '' || $username == null) echo "disabled=\"disabled\"" ?>>立即购买</button>
+                        <button class="btn btn-block btn-danger" type="submit" <?php if ($username === '' || $username == null || $row->gstatus == 1) echo "disabled=\"disabled\"" ?>>立即购买</button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-block btn-danger" id="addToTrolley">加入购物车</button>
@@ -158,7 +178,7 @@ $row = $res[0];
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <form class="form-group">
+                            <form class="form-group" id="form-submit-order">
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
                                     <label for="item_name">商品名称</label>
                                     <input class="form-control" id="item_name" type="text" readonly>
@@ -188,11 +208,12 @@ $row = $res[0];
                                     <input class="form-control" id="user_telephone" type="text">
                                 </div>
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
-                                    <h4 class="col-lg-3 col-lg-offset-4">总价:</h4>
+                                    <h4 class="col-lg-4" id="submit_status"></h4>
+                                    <h4 class="col-lg-3">总价:</h4>
                                     <h4 class="col-lg-3"id="tol_price"></h4>
                                 </div>
                                 <div class="col-8 col-lg-8 col-lg-offset-2 form-register-item">
-                                    <button class="btn btn-block btn-success btn-submit btn-lg" id="submit_order">提交订单</button>
+                                    <button type="submit" class="btn btn-block btn-success btn-submit btn-lg" id="submit_order">提交订单</button>
                                 </div>
                             </form>
                         </div>

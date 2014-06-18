@@ -20,7 +20,8 @@ gcpu text,
 gmemory text,
 gdisk text,
 ggpu text,
-gother text
+gother text,
+gstatus int default 0
 );
 
 create table if not exists user_detail(
@@ -37,9 +38,11 @@ create table if not exists orders(
 oid int primary key auto_increment,
 uid int,
 gid int,
+gname text,
 oamount int not null default 1,
 oname varchar(20) not null,
 ocode int,
+ototal int,
 oaddress text not null,
 otelephone varchar(13),
 odate datetime not null,

@@ -91,7 +91,7 @@
                     <h4 class="text-right">显卡型号</h4>
                 </div>
                 <div class="col-md-6">
-                    <input class="form-control" type="text" name="gpus">
+                    <input class="form-control" type="text" name="gpu">
                 </div>
             </div>
 

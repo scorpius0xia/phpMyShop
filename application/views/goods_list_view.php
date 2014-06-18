@@ -1,29 +1,41 @@
-
+<script type="text/javascript">
+    $().ready(function(){
+        $('#select_item_form').submit(function(){
+            var cpu = $('#info_cpu').val();
+            var mem = $('#info_mem').val();
+            var hd = $('#info_hd').val();
+            var gpu = $('#info_gpu').val();
+            alert(cpu);
+            window.open("<?php echo site_url('index/selectpage');?>" + "/"
+                    + cpu + "/" + mem + "/" + hd + "/" + gpu);
+        });
+    });
+</script>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <div class="row">
-            <form class="form-group" >
+            <form class="form-group" id="select_item_form">
                 <div class="container marketing-content">
                     <div class="col-md-2">
-                        <select class="mbn" name="info">
-                            <option value="0">Intel i5</option>
-                            <option value="1">Intel i7 4511 mx</option>
+                        <select class="mbn" id="info_cpu">
+                            <option value="Intel i5 酷睿">Intel i5 酷睿</option>
+                            <option value="Intel i7 4511 mx">Intel i7 4511 mx</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select class="mbn" name="info">
+                        <select class="mbn" id="info_mem">
                             <option value="0">4GB DDR3</option>
                             <option value="1">8GB DDR3</option>
                         </select>
                     </div>
                     <div class="col-md-2 center-block">
-                        <select class="mbn" name="info">
+                        <select class="mbn" id="info_hd">
                             <option value="0">64GB SSD</option>
                             <option value="1">1TB HDD</option>
                         </select>
                     </div>
                     <div class="col-md-2 center-block">
-                        <select class="mbn" name="info">
+                        <select class="mbn" id="info_gpu">
                             <option value="0">NVIDIA GTX 650 Ti Boost</option>
                             <option value="1">AMD HD8625</option>
                         </select>

@@ -23,6 +23,7 @@ class Good_model extends CI_Model{
     }
     
     public function get_items($num,$offset){
+        $this->db->where('gstatus',0);
         $query = $this->db->get('goods',$num,$offset);
         return $query;
     }
@@ -36,4 +37,5 @@ class Good_model extends CI_Model{
         
         return $query;
     }
+    
 }
