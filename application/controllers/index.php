@@ -30,6 +30,16 @@ class Index extends CI_Controller {
     }
 
     public function index() {
+        $this->db->order_by('sid','desc');
+        $res1 = $this->db->get('show_items',5);
+        $this->db->order_by('pid','desc');
+        $res2 = $this->db->get('product_items',3);
+        $this->db->order_by('pid','desc');
+        $res3 = $this->db->get('product_items',3,3);
+        
+        $data['res1'] = $res1;
+        $data['res2'] = $res2;
+        $data['res3'] = $res3;
         $data['title'] = '联想商城';
         $data['menuactive'] = array('active', '', '', '');
         $this->mainpage($data);
@@ -445,9 +455,9 @@ class Index extends CI_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        
+
         $data['results'] = $this->Order_model->getOrderAdmin($config['per_page'], $this->uri->segment(3), 0);
-        
+
         $data['title'] = '发货';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_send_item_view', $data);
@@ -486,9 +496,9 @@ class Index extends CI_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        
+
         $data['results'] = $this->Order_model->getOrderAdmin($config['per_page'], $this->uri->segment(3));
-        
+
         $data['title'] = '删除订单';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_delete_orders_view', $data);
@@ -533,7 +543,7 @@ class Index extends CI_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        
+
         $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
         $data['title'] = '商品下架';
         $data['menuactive'] = array('', '', '', '');
@@ -541,7 +551,7 @@ class Index extends CI_Controller {
     }
 
     public function admin_add_amount() {
-        
+
         $this->load->library('pagination');
         $config['base_url'] = site_url('index/admin_add_amount');
         $config['total_rows'] = 200; //$this->db->count_all('goods');
@@ -574,9 +584,9 @@ class Index extends CI_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        
+
         $data['results'] = $this->Good_model->get_items($config['per_page'], $this->uri->segment(3));
-        
+
         $data['title'] = '进货';
         $data['menuactive'] = array('', '', '', '');
         $this->admin_page('admin_add_amount_view', $data);
@@ -675,30 +685,83 @@ class Index extends CI_Controller {
         $this->ucenter();
     }
 
-    public function item_send($oid){
+    public function item_send($oid) {
         $this->Order_model->item_cancel($oid);
         redirect('index/admin_send_item');
     }
-    
-    public function order_delete($oid){
+
+    public function order_delete($oid) {
         $this->Order_model->order_delete($oid);
         redirect('index/admin_delete_orders');
     }
-    
-    public function item_fall($gid){
-        $this->db->where('gid',$gid);
-        $this->db->update('goods',array('gstatus'=>1));
+
+    public function item_fall($gid) {
+        $this->db->where('gid', $gid);
+        $this->db->update('goods', array('gstatus' => 1));
         redirect('index/admin_fall_item');
     }
-    
-    public function add_item_amount(){
+
+    public function add_item_amount() {
         $gid = $this->input->post('item_id');
         $gamount = $this->input->post('item_amount');
         $gprice = $this->input->post('item_price');
-        
-        $this->db->where('gid',$gid);
-        $this->db->update('goods',array('gamount'=>$gamount,'gprice'=>$gprice));
-        
+
+        $this->db->where('gid', $gid);
+        $this->db->update('goods', array('gamount' => $gamount, 'gprice' => $gprice));
+
         echo '更新成功';
     }
+
+    public function admin_add_show() {
+        $data['title'] = '添加到拉幕';
+        $data['menuactive'] = array('', '', '', '');
+        $this->admin_page('add_show_item_view', $data);
+    }
+
+    public function admin_add_product() {
+        $data['title'] = '添加到首页';
+        $data['menuactive'] = array('', '', '', '');
+        $this->admin_page('add_product_item_view', $data);
+    }
+
+    public function add_show_item() {
+        $gid = $this->input->post('show_item_name');
+        
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '100';
+        $config['max_width'] = '1024';
+        $config['max_height'] = '768';
+        $config['file_name'] = 'hehe_';
+
+        $this->load->library('upload', $config);
+
+        $this->upload->do_upload('show_item_pic');
+        $tmp = $this->upload->data();
+        //echo $this->upload->display_errors();
+        //var_dump($tmp);
+        if (strcmp($tmp['file_name'], 'hello_') == 0) {
+            $sshowpic = "";
+        } else {
+            $sshowpic = base_url() . 'uploads/' . $tmp['file_name'];
+        }
+        
+        $data['gid'] = $gid;
+        $data['sshowpic'] = $sshowpic;
+        
+        $this->db->insert('show_items',$data);
+        $this->index();
+    }
+
+    public function add_product_item() {
+        $gid = $this->input->post('product_item_name');
+        $ptext = $this->input->post('product_item_text');
+
+        $data['gid'] = $gid;
+        $data['pshowtext'] = $ptext;
+
+        $this->db->insert('product_items', $data);
+        $this->index();
+    }
+
 }

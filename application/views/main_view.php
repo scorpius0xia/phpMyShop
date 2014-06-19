@@ -1,55 +1,64 @@
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <!-- <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+         <li data-target="#myCarousel" data-slide-to="1"></li>
+         <li data-target="#myCarousel" data-slide-to="2"></li>-->
+        <?php
+        $row_nums = $res1->num_rows();
+        for ($i = 0; $i < $row_nums; $i ++) {
+            ?>
+            <li data-target="#myCarousel" data-slide-to="<?php echo $i; ?>"></li>
+        <?php } ?>
     </ol>
+    <?php
+    $res1 = $res1->result();
+    $row = $res1[0];
+    ?>
     <div class="carousel-inner">
         <div class="item active">
-            <img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide" alt="First slide">
+            <img src="<?php echo $row->sshowpic; ?>" >
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Example headline.</h1>
+                    <h1><h1><?php
+                            $tmp = $this->Good_model->item_detail($row->gid);
+                            $tmp = $tmp->result();
+                            echo $tmp[0]->gname;
+                            ?></h1></h1>
                     <p>
-                        Note: If you're viewing this page via a
-                        <code>file://</code>
-                        URL, the "next" and "previous" Glyphicon buttons on the left and right     			might not load/display properly due to web browser security rules.
+                        <?php echo $tmp[0]->goption; ?>
                     </p>
                     <p>
-                        <a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a>
+                        <a class="btn btn-lg btn-primary" href="<?php echo site_url('index/item_detail/' . $row->gid); ?>" role="button">查看详情</a>
                     </p>
                 </div>
             </div>
         </div>
-        <div class="item">
-            <img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>Another example headline.</h1>
-                    <p>
-                        Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id 				   				nibh ultricies vehicula ut id elit.
-                    </p>
-                    <p>
-                        <a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
-                    </p>
+        <?php
+        for ($i = 1; $i < $row_nums; $i ++) {
+            $row = $res1[$i];
+            ?>
+            <div class="item">
+                <img src="<?php echo $row->sshowpic; ?>" >
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1><?php
+                            $tmp = $this->Good_model->item_detail($row->gid);
+                            $tmp = $tmp->result();
+                            echo $tmp[0]->gname;
+                            ?></h1>
+                        <p>
+                            <?php echo $tmp[0]->goption; ?>
+                        </p>
+                        <p>
+                            <a class="btn btn-lg btn-primary" href="<?php echo site_url('index/item_detail/' . $row->gid); ?>" role="button">查看详情</a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="item">
-            <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide" alt="Third slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>One more for good measure.</h1>
-                    <p>
-                        Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id 						 				cnibh ultricies vehicula ut id elit.
-                    </p>
-                    <p>
-                        <a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <?php } ?>
+
     </div>
     <a class="left carousel-control" href="#myCarousel" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left"></span>
@@ -68,92 +77,66 @@
 
     <!-- Three columns of text below the carousel -->
     <div class="row">
-        <div class="col-lg-4 ">
-            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>
-                Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
-            </p>
-            <p>
-                <a class="btn btn-default" href="<?php echo site_url('index/item_detail');?>" role="button">View details &raquo;</a>
-            </p>
-        </div>
-        <!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.
-            </p>
-            <p>
-                <a class="btn btn-default" href="#" role="button">View details &raquo;</a>
-            </p>
-        </div>
-        <!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle img-responsive" src="<?php echo base_url('public/image/lenovo_another.jpg');?>" alt="Generic placeholder image">
-            <h2>Heading</h2>
-            <p>
-                Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-            </p>
-            <p>
-                <a class="btn btn-default" href="#" role="button">View details &raquo;</a>
-            </p>
-        </div>
-        <!-- /.col-lg-4 -->
-    </div>
-    <!-- /.row -->
+        <?php
+        $row_nums = $res2->num_rows();
+        $res2 = $res2->result();
+        for ($i = 0; $i < $row_nums; $i ++) {
+            $row = $res2[$i];
+            $tmp = $this->Good_model->item_detail($row->gid);
+            $tmp = $tmp->result();
+            ?>
+            <div class="col-lg-4 ">
+                <img class="img-circle img-responsive" src="<?php echo $tmp[0]->gtitlepic; ?>" alt="Generic placeholder image">
+                <h2><?php echo $tmp[0]->gname; ?></h2>
+                <p>
+                    <?php echo $tmp[0]->goption; ?>
+                </p>
+                <p>
+                    <a class="btn btn-default" href="<?php echo site_url('index/item_detail/' . $tmp[0]->gid); ?>" role="button">查看详情 &raquo;</a>
+                </p>
+            </div>
+        <?php } ?>
 
-    <!-- START THE FEATURETTES -->
-
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                First featurette heading.
-                <span class="text-muted">It'll blow your mind.</span>
-            </h2>
-            <p class="lead">
-                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-            </p>
-        </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_show.jpg');?>">
-        </div>
     </div>
 
-    <hr class="featurette-divider">
+    <?php
+    $row_nums = $res3->num_rows();
+    $res3 = $res3->result();
+    for ($i = 0; $i < $row_nums; $i ++) {
+        $row = $res3[$i];
+        $tmp = $this->Good_model->item_detail($row->gid);
+        $tmp = $tmp->result();
+        if ($i % 2 == 0) {
+            ?>
+            <hr class="featurette-divider">
 
-    <div class="row featurette">
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_another.jpg');?>"></div>
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                Oh yeah, it's that good.
-                <span class="text-muted">See for yourself.</span>
-            </h2>
-            <p class="lead">
-                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-            </p>
-        </div>
-    </div>
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <p class="lead">
+                        <?php echo $tmp[0]->goption; ?>
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <a href="<?php echo site_url('index/item_detail/' . $tmp[0]->gid); ?>"><img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo $tmp[0]->gtitlepic; ?>"></a>
+                </div>
+            </div>
+        <?php } else { ?>
+            <hr class="featurette-divider">
 
-    <hr class="featurette-divider">
+            <div class="row featurette">
+                <div class="col-md-5">
+                    <a href="<?php echo site_url('index/item_detail/' . $tmp[0]->gid); ?>"><img class="featurette-image img-responsive thumbnail"  alt="Generic placeholder image" src="<?php echo $tmp[0]->gtitlepic; ?>"></a>
+                </div>
+                <div class="col-md-7">
+                    <p class="lead">
+                        <?php echo $tmp[0]->goption; ?>
+                    </p>
+                </div>
 
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h2 class="featurette-heading">
-                And lastly, this one.
-                <span class="text-muted">Checkmate.</span>
-            </h2>
-            <p class="lead">
-                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-            </p>
-        </div>
-        <div class="col-md-5">
-            <img class="featurette-image img-responsive thumbnail" alt="Generic placeholder image" src="<?php echo base_url('public/image/lenovo_another.jpg');?>"></div>
-    </div>
+            </div>
+        <?php } ?>
+
+    <?php } ?>
 </div>
 
 

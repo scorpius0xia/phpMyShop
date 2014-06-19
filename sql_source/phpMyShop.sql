@@ -50,3 +50,17 @@ ostatus int not null default 0,
 foreign key (uid) references users(uid),
 foreign key (gid) references goods(gid)
  );
+
+create table if not exists show_items(
+sid int primary key auto_increment,
+gid int,
+sshowpic text,
+foreign key (gid) references goods(gid)
+);
+
+create table if not exists product_items(
+pid int primary key auto_increment,
+gid int,
+pshowtext text,
+foreign key(gid) references goods(gid)
+);

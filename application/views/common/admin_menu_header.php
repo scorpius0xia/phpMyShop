@@ -49,6 +49,12 @@
                         <div class="accordion-inner">
                             <a class="btn btn-block btn-default" id="admin_add_amount" href="<?php echo site_url('index/admin_add_amount');?>">进货</a>
                         </div>
+                        <div class="accordion-inner">
+                            <a class="btn btn-block btn-default" id="admin_add_show" href="<?php echo site_url('index/admin_add_show');?>">添加到拉幕</a>
+                        </div>
+                        <div class="accordion-inner">
+                            <a class="btn btn-block btn-default" id="admin_add_product" href="<?php echo site_url('index/admin_add_product');?>">添加到首页</a>
+                        </div>
                     </div>
                 </div>
             </div>
