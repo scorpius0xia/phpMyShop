@@ -89,7 +89,7 @@
                 <img class="img-circle img-responsive" src="<?php echo $tmp[0]->gtitlepic; ?>" alt="Generic placeholder image">
                 <h2><?php echo $tmp[0]->gname; ?></h2>
                 <p>
-                    <?php echo $tmp[0]->goption; ?>
+                    <?php echo $row->pshowtext; ?>
                 </p>
                 <p>
                     <a class="btn btn-default" href="<?php echo site_url('index/item_detail/' . $tmp[0]->gid); ?>" role="button">查看详情 &raquo;</a>
@@ -113,7 +113,7 @@
             <div class="row featurette">
                 <div class="col-md-7">
                     <p class="lead">
-                        <?php echo $tmp[0]->goption; ?>
+                        <?php echo $row->pshowtext; ?>
                     </p>
                 </div>
                 <div class="col-md-5">
@@ -129,7 +129,7 @@
                 </div>
                 <div class="col-md-7">
                     <p class="lead">
-                        <?php echo $tmp[0]->goption; ?>
+                        <?php echo $row->pshowtext; ?>
                     </p>
                 </div>
 
